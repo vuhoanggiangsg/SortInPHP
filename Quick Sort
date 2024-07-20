@@ -1,0 +1,47 @@
+<?php
+function swap(&$arr, $i, $j) {
+    $temp = $arr[$i];
+    $arr[$i] = $arr[$j];
+    $arr[$j] = $temp;
+}
+
+function partition(&$arr, $low, $high) {
+    $pivot = $arr[$high]; // pivot element
+    $i = $low - 1; // index of smaller element
+
+    for ($j = $low; $j <= $high-1; $j++) {
+        // If current element is smaller than or equal to pivot
+        if ($arr[$j] <= $pivot) {
+            $i++; // increment index of smaller element
+            swap($arr, $i, $j);
+        }
+    }
+    swap($arr, $i + 1, $high);
+    return ($i + 1);
+}
+
+function quickSort(&$arr, $low, $high) {
+    if ($low < $high) {
+        // pi is partitioning index, arr[pi] is now at right place
+        $pi = partition($arr, $low, $high);
+
+        // Separately sort elements before partition and after partition
+        quickSort($arr, $low, $pi - 1);
+        quickSort($arr, $pi + 1, $high);
+    }
+}
+
+function printArray($arr) {
+    foreach ($arr as $value) {
+        echo $value . " ";
+    }
+    echo "\n";
+}
+
+// Example usage
+$arr = array(10, 7, 8, 9, 1, 5);
+$n = count($arr);
+quickSort($arr, 0, $n-1);
+echo "Sorted array:\n";
+printArray($arr);
+?>
